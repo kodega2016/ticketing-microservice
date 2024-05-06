@@ -1,0 +1,37 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    app: auth
+spec:
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: kodega2016/ticketing_auth
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-clusterip-service
+spec:
+  selector:
+    app: auth
+  type: ClusterIP
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
