@@ -1,0 +1,23 @@
+apiVersion:  skaffold/v4beta10
+kind: Config
+metadata:
+  name: ticketing-skaffold
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  kubectl: {}
+build:
+  local:
+    push: false
+  artifacts:
+    - image: kodega2016/ticketing-auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+  
+    
