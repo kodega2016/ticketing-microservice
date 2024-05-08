@@ -4,7 +4,7 @@ metadata:
   name: ticketing-app
 build:
   local:
-    push: false
+    push: true
   artifacts:
     - image: kodega2016/ticketing_auth
       context: auth
