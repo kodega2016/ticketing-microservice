@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-mongo-db-deployment
+  labels:
+    app: auth-mongo-db
+spec:
+  selector:
+    matchLabels:
+      app: auth-mongo-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: auth-mongo-db
+    spec:
+      containers:
+        - name: auth-mongo-db
+          image: mongo
+          imagePullPolicy: Always
+          # ports:
+          #   - containerPort: 80
+          #     name: auth-mongo-db-deployment
+      #     volumeMounts:
+      #       - name: localtime
+      #         mountPath: /etc/localtime
+      # volumes:
+      #   - name: localtime
+      #     hostPath:
+      #       path: /usr/share/zoneinfo/Asia/Taipei
+      # restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mongo-db-clusterip-service
+spec:
+  selector:
+    app: auth-mongo-db
+  type: ClusterIP
+  ports:
+    - name: auth-mongo-db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

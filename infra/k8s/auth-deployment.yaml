@@ -20,6 +20,9 @@ spec:
           ports:
             - containerPort: 3000
               name: auth
+          env:
+            - name: MONGO_DB_URI
+              value: auth-mongo-db-clusterip-service
 ---
 apiVersion: v1
 kind: Service
