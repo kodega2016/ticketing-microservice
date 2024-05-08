@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { DatabaseConnectionError } from "../errors/database-connection-error";
+import { NotFoundError } from "../errors/not-found-error";
 
 const errorHandler = (
   err: Error,
@@ -9,27 +10,27 @@ const errorHandler = (
   next: NextFunction,
 ) => {
   if (err instanceof RequestValidationError) {
-    const formattedErrors = err.errors.map((error) => {
-      if (error.type === "field") {
-        return { message: error.msg, field: error.path };
-      }
-    });
-
-    return res.status(400).json({
-      errors: formattedErrors,
+    return res.status(err.statusCode).json({
+      errors: err.serializeErrors(),
       data: null,
     });
   }
   if (err instanceof DatabaseConnectionError) {
-    return res.status(400).json({
-      errors: [{ message: err.reason }],
+    return res.status(err.statusCode).json({
+      errors: err.serializeErrors(),
+    });
+  }
+
+  if (err instanceof NotFoundError) {
+    return res.status(err.statusCode).json({
+      errors: err.serializeErrors(),
     });
   }
 
   res.status(500).json({
-    message: err.message || "Something went wrong!",
     data: null,
     stack: err.stack,
+    errors: [{ message: err.message || "Something went wrong!" }],
   });
 };
 
