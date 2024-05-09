@@ -2,12 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { DatabaseConnectionError } from "../errors/database-connection-error";
 import { NotFoundError } from "../errors/not-found-error";
+import { BadRequestError } from "../errors/bad-request-error";
 
 const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   if (err instanceof RequestValidationError) {
     return res.status(err.statusCode).json({
@@ -22,6 +23,12 @@ const errorHandler = (
   }
 
   if (err instanceof NotFoundError) {
+    return res.status(err.statusCode).json({
+      errors: err.serializeErrors(),
+    });
+  }
+
+  if (err instanceof BadRequestError) {
     return res.status(err.statusCode).json({
       errors: err.serializeErrors(),
     });
