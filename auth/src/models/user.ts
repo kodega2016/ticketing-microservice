@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
-import jsonwebtoken from "jsonwebtoken";
+import { Jwt } from "../services/jwt";
 // An interface that describes the properties
 // that are required to create a new User
 //
@@ -61,13 +61,10 @@ userSchema.pre("save", async function (done) {
 
 // generate jwt token
 userSchema.methods.generateAuthToken = function () {
-  return jsonwebtoken.sign(
-    {
-      id: this._id,
-      email: this.email,
-    },
-    process.env.JWT_KEY!
-  );
+  return Jwt.sign({
+    id: this._id,
+    email: this.email,
+  });
 };
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
