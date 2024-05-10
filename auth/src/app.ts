@@ -18,6 +18,7 @@ app.use(
   cookieSession({
     httpOnly: false,
     signed: false,
+    secure: process.env.NODE_ENV !== "test",
   })
 );
 
