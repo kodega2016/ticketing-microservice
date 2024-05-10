@@ -25,7 +25,7 @@ router.post(
     // generate jwt
     const userJwt = jsonwebtoken.sign(
       { id: user.id, email: user.email },
-      "secret"
+      process.env.JWT_KEY!
     );
     // store it on the session object
     req.session = { jwt: userJwt };

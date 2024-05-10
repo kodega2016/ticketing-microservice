@@ -23,6 +23,11 @@ spec:
           env:
             - name: MONGO_DB_URI
               value: auth-mongo-db-clusterip-service
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt
 ---
 apiVersion: v1
 kind: Service
