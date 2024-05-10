@@ -4,7 +4,6 @@ import { User } from "../models/user";
 import { signupValidator } from "../validators/signup";
 import { validator } from "../middlewares/validator";
 import { BadRequestError } from "../errors/bad-request-error";
-import jsonwebtoken from "jsonwebtoken";
 
 router.post(
   "/api/users/signup",
@@ -23,10 +22,7 @@ router.post(
     await user.save();
 
     // generate jwt
-    const userJwt = jsonwebtoken.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_KEY!
-    );
+    const userJwt = user.generateAuthToken();
     // store it on the session object
     req.session = { jwt: userJwt };
 
