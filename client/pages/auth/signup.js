@@ -24,13 +24,15 @@ const Signup = () => {
     <form onSubmit={handleSubmit}>
       <div className="container mx-auto">
         <h1>Signup page</h1>
-
         {errors && errors.length > 0 && (
           <div className="alert alert-danger">
-            {errors && errors.map((err) => err.message).join(",")}
+            <ul className="my-0">
+              {errors.map((err) => (
+                <li key={err.message}>{err.message}</li>
+              ))}
+            </ul>
           </div>
         )}
-
         <div className="form-group">
           <label>Email Address</label>
           <input
