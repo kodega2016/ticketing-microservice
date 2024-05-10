@@ -1,25 +1,43 @@
 import { useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("email:", email, "password:", password);
+    try {
+      await axios.post("/api/users/signup", {
+        email,
+        password,
+      });
+      setErrors([]);
+    } catch (error) {
+      setErrors(error.response.data.errors);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="container mx-auto">
         <h1>Signup page</h1>
+
+        {errors && errors.length > 0 && (
+          <div className="alert alert-danger">
+            {errors && errors.map((err) => err.message).join(",")}
+          </div>
+        )}
+
         <div className="form-group">
           <label>Email Address</label>
           <input
             type="email"
             className="form-control"
             placeholder="Enter email address..."
-            defaultValue={email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -29,7 +47,7 @@ const Signup = () => {
             type="password"
             className="form-control"
             placeholder="Enter password..."
-            defaultValue={password}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
