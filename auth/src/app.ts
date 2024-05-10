@@ -7,10 +7,19 @@ import { signOutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 import { errorHandler } from "./middlewares/error-handler";
 import { NotFoundError } from "./errors/not-found-error";
+import cookieSession from "cookie-session";
 const app = express();
 
 // setup express body parser
 app.use(json());
+// setup cookie session
+app.set("trust proxy", true);
+app.use(
+  cookieSession({
+    httpOnly: false,
+    signed: false,
+  })
+);
 
 // setup routes
 app.use(currentUserRouter);
