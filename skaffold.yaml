@@ -10,6 +10,18 @@ build:
       context: auth
       docker:
         dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "src/**/*.ts"
+    - image: kodega2016/ticketing_client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "**/*.js"
 manifests:
   rawYaml:
     - infra/k8s/*
