@@ -1,13 +1,13 @@
-import { useState } from "react";
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
+const { useState } = require("react");
 
-const Signup = () => {
+const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { doRequest, errors } = useRequest({
-    url: "/api/users/signup",
+    url: "/api/users/signin",
     method: "post",
     body: { email, password },
     onSuccess: (res) => {
@@ -20,15 +20,15 @@ const Signup = () => {
     try {
       await doRequest();
     } catch (error) {
-      console.error("error:", error);
+      console.log(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="container mx-auto">
-        <h1>Sign up</h1>
-        {errors && errors}
+    <div className="container">
+      <h1>Sign-in</h1>
+      {errors && errors}
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email Address</label>
           <input
@@ -50,11 +50,10 @@ const Signup = () => {
           />
         </div>
         <button className="btn btn-primary mt-2" type="submit">
-          Register
+          Signin
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
-
-export default Signup;
+export default Signin;
