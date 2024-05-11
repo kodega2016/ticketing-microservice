@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -10,27 +10,25 @@ const Signup = () => {
     url: "/api/users/signup",
     method: "post",
     body: { email, password },
+    onSuccess: (res) => {
+      console.log("res:", res);
+      Router.push("/");
+    },
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await doRequest();
-    console.log("response:", response);
+    try {
+      await doRequest();
+    } catch (error) {
+      console.error("error:", error);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="container mx-auto">
         <h1>Signup page</h1>
-        {/* {errors && errors.length > 0 && ( */}
-        {/*   <div className="alert alert-danger"> */}
-        {/*     <ul className="my-0"> */}
-        {/*       {errors.map((err) => ( */}
-        {/*         <li key={err.message}>{err.message}</li> */}
-        {/*       ))} */}
-        {/*     </ul> */}
-        {/*   </div> */}
-        {/* )} */}
         {errors && errors}
         <div className="form-group">
           <label>Email Address</label>
