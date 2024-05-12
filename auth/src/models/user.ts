@@ -1,6 +1,8 @@
+import Jwt from "@kodeapps/common/build/services/jwt";
+import PasswordHasher from "@kodeapps/common/build/services/password_hasher";
 import mongoose from "mongoose";
-import { Password } from "../services/password";
-import { Jwt } from "../services/jwt";
+// import { Password } from "../services/password";
+// import { Jwt } from "../services/jwt";
 // An interface that describes the properties
 // that are required to create a new User
 //
@@ -53,7 +55,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
-    const hashed = await Password.toHash(this.get("password"));
+    const hashed = await PasswordHasher.toHash(this.get("password"));
     this.set("password", hashed);
   }
   done();

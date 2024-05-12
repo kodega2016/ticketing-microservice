@@ -5,9 +5,9 @@ import { currentUserRouter } from "./routes/currentuser";
 import { signinRouter } from "./routes/signin";
 import { signOutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors/not-found-error";
+
 import cookieSession from "cookie-session";
+import { NotAuthorizedError, errorHandler } from "@kodeapps/common";
 const app = express();
 
 // setup express body parser
@@ -30,7 +30,7 @@ app.use(signOutRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
-  throw new NotFoundError();
+  throw new NotAuthorizedError();
 });
 
 // setup error handler

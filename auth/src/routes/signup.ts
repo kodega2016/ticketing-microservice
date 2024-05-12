@@ -2,8 +2,7 @@ import express, { Response, Request } from "express";
 const router = express.Router();
 import { User } from "../models/user";
 import { signupValidator } from "../validators/signup";
-import { validator } from "../middlewares/validator";
-import { BadRequestError } from "../errors/bad-request-error";
+import { BadRequestError, validator } from "@kodeapps/common";
 
 router.post(
   "/api/users/signup",

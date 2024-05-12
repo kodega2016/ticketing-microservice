@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
-import { signinValidator } from "../validators/signin";
-import { validator } from "../middlewares/validator";
+import { BadRequestError, validator } from "@kodeapps/common";
 import { User } from "../models/user";
-import { BadRequestError } from "../errors/bad-request-error";
-import { Password } from "../services/password";
+import { signinValidator } from "../validators/signin";
+import PasswordHasher from "@kodeapps/common/build/services/password_hasher";
+
 const router = Router();
 
 router.post(
@@ -20,7 +20,10 @@ router.post(
     }
 
     // check if the password is correct
-    const isPasswordMatched = Password.compare(existingUser.password, password);
+    const isPasswordMatched = PasswordHasher.compare(
+      existingUser.password,
+      password
+    );
 
     if (!isPasswordMatched) {
       throw new BadRequestError("Password didnot matched,Try again");
