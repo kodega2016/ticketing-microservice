@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-deployment
+  labels:
+    app: tickets
+spec:
+  selector:
+    matchLabels:
+      app: tickets
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tickets
+    spec:
+      containers:
+        - name: tickets
+          image: kodega2016/ticketing_tickets
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: tickets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-clusterip-service
+  namespace: default
+spec:
+  selector:
+    app: tickets
+  type: ClusterIP
+  ports:
+    - name: ticketing-clusterip-service
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
