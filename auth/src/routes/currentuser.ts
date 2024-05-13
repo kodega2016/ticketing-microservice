@@ -4,7 +4,6 @@ const router = express.Router();
 
 router.get(
   "/api/users/currentuser",
-  currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
     res.status(200).json({

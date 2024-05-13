@@ -3,7 +3,11 @@ import express from "express";
 import "express-async-errors";
 
 import cookieSession from "cookie-session";
-import { NotAuthorizedError, errorHandler } from "@kodeapps/common";
+import {
+  NotAuthorizedError,
+  currentUser,
+  errorHandler,
+} from "@kodeapps/common";
 const app = express();
 
 // setup express body parser
@@ -18,7 +22,12 @@ app.use(
   })
 );
 
+// set current user middleware
+app.use(currentUser);
+
 // setup routes
+import { createTicketRouter } from "./routes/new";
+app.use(createTicketRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {

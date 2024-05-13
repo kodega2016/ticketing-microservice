@@ -7,7 +7,11 @@ import { signOutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 
 import cookieSession from "cookie-session";
-import { NotAuthorizedError, errorHandler } from "@kodeapps/common";
+import {
+  NotAuthorizedError,
+  errorHandler,
+  currentUser,
+} from "@kodeapps/common";
 const app = express();
 
 // setup express body parser
@@ -21,6 +25,9 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
+
+// set currentuser middleware
+app.use(currentUser);
 
 // setup routes
 app.use(currentUserRouter);
