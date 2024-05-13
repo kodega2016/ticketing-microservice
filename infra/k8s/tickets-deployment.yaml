@@ -21,6 +21,9 @@ spec:
           ports:
             - containerPort: 3000
               name: tickets
+          env:
+            - name: MONGO_DB_URI
+              value: tickets-mongo-clusterip-service
 ---
 apiVersion: v1
 kind: Service
