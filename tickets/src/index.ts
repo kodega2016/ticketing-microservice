@@ -2,6 +2,9 @@ import { app } from "./app";
 import mongoose from "mongoose";
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined");
+  }
   if (process.env.MONGO_DB_URI === undefined) {
     throw new Error("MONGO_DB_URI must be defined");
   }
