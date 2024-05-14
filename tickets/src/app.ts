@@ -27,7 +27,10 @@ app.use(currentUser);
 
 // setup routes
 import { createTicketRouter } from "./routes/new";
+import { showTicketRouter } from "./routes/show";
+
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
