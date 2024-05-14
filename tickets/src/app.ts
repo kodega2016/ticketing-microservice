@@ -28,7 +28,9 @@ app.use(currentUser);
 // setup routes
 import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from "./routes/show";
+import { indexTicketRouter } from "./routes";
 
+app.use(indexTicketRouter);
 app.use(createTicketRouter);
 app.use(showTicketRouter);
 
