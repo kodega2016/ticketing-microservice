@@ -29,10 +29,12 @@ app.use(currentUser);
 import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from "./routes/show";
 import { indexTicketRouter } from "./routes";
+import { updateRouter } from "./routes/update";
 
 app.use(indexTicketRouter);
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(updateRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
