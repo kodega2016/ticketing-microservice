@@ -7,10 +7,12 @@ import { signOutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 
 import cookieSession from "cookie-session";
+
 import {
-  NotAuthorizedError,
   errorHandler,
   currentUser,
+  BadRequestError,
+  NotFoundError,
 } from "@kodeapps/common";
 const app = express();
 
@@ -37,7 +39,8 @@ app.use(signOutRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
-  throw new NotAuthorizedError();
+  console.log(new NotFoundError());
+  throw new BadRequestError("Route not found");
 });
 
 // setup error handler

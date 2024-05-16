@@ -1,7 +1,7 @@
 import { Router } from "express";
-const router = Router();
 import { Ticket } from "../models/ticket";
 import { NotFoundError } from "@kodeapps/common";
+const router = Router();
 
 router.get("/api/tickets/:id", async (req, res) => {
   const ticket = await Ticket.findById(req.params.id);
