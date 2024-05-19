@@ -1,6 +1,6 @@
-import nats, { Message } from "node-nats-streaming";
+import nats from "node-nats-streaming";
 import { randomBytes } from "crypto";
-import { Listener } from "./events/base-listener";
+import { TicketCreatedListener } from "./events/ticket-created-listener";
 
 const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
@@ -19,13 +19,3 @@ stan.on("connect", () => {
 
 process.on("SIGINT", () => stan.close());
 process.on("SIGTERM", () => stan.close());
-
-class TicketCreatedListener extends Listener {
-  subject = "ticket:created";
-  queueGroupName = "payments-service";
-
-  onMessage(data: any, msg: Message) {
-    console.log("Event data!", data);
-    msg.ack();
-  }
-}
