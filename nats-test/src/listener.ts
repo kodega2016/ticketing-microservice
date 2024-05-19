@@ -1,5 +1,6 @@
-import nats, { Message, Stan } from "node-nats-streaming";
+import nats, { Message } from "node-nats-streaming";
 import { randomBytes } from "crypto";
+import { Listener } from "./events/base-listener";
 
 const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
@@ -13,64 +14,18 @@ stan.on("connect", () => {
     process.exit();
   });
 
-  const options = stan.subscriptionOptions().setManualAckMode(true);
-
-  const subscription = stan.subscribe(
-    "ticket:created",
-    "order-service-queue-group",
-    options
-  );
-
-  subscription.on("message", (message: Message) => {
-    console.log("received channel:", message.getSubject());
-    console.log("received data:", message.getData());
-
-    // Acknowledge the message
-    message.ack();
-  });
+  new TicketCreatedListener(stan).listen();
 });
 
 process.on("SIGINT", () => stan.close());
 process.on("SIGTERM", () => stan.close());
 
-abstract class Listener {
-  private client: Stan;
+class TicketCreatedListener extends Listener {
+  subject = "ticket:created";
+  queueGroupName = "payments-service";
 
-  abstract subject: string;
-  abstract queueGroupName: string;
-  abstract onMessage(data: any, message: Message): void;
-  protected ackWait = 5 * 1000;
-
-  constructor(client: Stan) {
-    this.client = client;
-  }
-
-  subscriptionOptions() {
-    return this.client
-      .subscriptionOptions()
-      .setDeliverAllAvailable()
-      .setManualAckMode(true)
-      .setAckWait(this.ackWait)
-      .setDurableName(this.queueGroupName);
-  }
-
-  listen() {
-    const subscription = this.client.subscribe(
-      this.subject,
-      this.queueGroupName,
-      this.subscriptionOptions()
-    );
-    subscription.on("message", (message: Message) => {
-      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`);
-      const parsedData = this.parseMessage(message);
-      this.onMessage(parsedData, message);
-    });
-  }
-
-  parseMessage(message: Message) {
-    const data = message.getData();
-    return typeof data === "string"
-      ? JSON.parse(data)
-      : JSON.parse(data.toString("utf8"));
+  onMessage(data: any, msg: Message) {
+    console.log("Event data!", data);
+    msg.ack();
   }
 }

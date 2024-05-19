@@ -5,12 +5,13 @@ const router = express.Router();
 router.get(
   "/api/users/currentuser",
   requireAuth,
+  currentUser,
   async (req: Request, res: Response) => {
     res.status(200).json({
       message: "current user is fetched successfully",
       data: req.currentUser || null,
     });
-  }
+  },
 );
 
 export { router as currentUserRouter };
