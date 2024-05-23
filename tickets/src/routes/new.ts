@@ -3,6 +3,7 @@ import { Router, Response, Request } from "express";
 import { createTicketValidator } from "../validators/createTicket";
 import { Ticket } from "../models/ticket";
 import { TicketCreatedPublisher } from "../events/ticket-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 const router = Router();
 
 router.post(
@@ -20,7 +21,7 @@ router.post(
 
     await ticket.save();
 
-    new TicketCreatedPublisher().publish({
+    new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: 0,
