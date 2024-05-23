@@ -1,13 +1,11 @@
-import { Listener } from "../../../common/src/events/base-listener";
 import { Message } from "node-nats-streaming";
-import { TickerCreatedEvent } from "../../../common/src/events/ticket-created-event";
-import { Subjects } from "../../../common/src/events/subjects";
+import { Listener, Subjects, TicketCreatedEvent } from "@kodeapps/common";
 
-export class TicketCreatedListener extends Listener<TickerCreatedEvent> {
+export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;
   queueGroupName = "payments-service";
 
-  onMessage(data: TickerCreatedEvent["data"], msg: Message) {
+  onMessage(data: TicketCreatedEvent["data"], msg: Message) {
     console.log("Event data!", data);
     console.log(data.id);
     console.log(data.title);

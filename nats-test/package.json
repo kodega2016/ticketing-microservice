@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@kodeapps/common": "^1.0.19",
     "@types/node": "^20.12.12",
     "crypto": "^1.0.1",
     "node-nats-streaming": "^0.3.2",

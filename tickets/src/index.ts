@@ -17,6 +17,15 @@ const start = async () => {
       "http://nats-clusterip-service:4222",
     );
     console.log("connected to NATS");
+
+    natsWrapper.client.on("close", () => {
+      console.log("NATS connection closed");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsWrapper.client.close());
+    process.on("SIGTERM", () => natsWrapper.client.close());
+
     const response = await mongoose.connect(
       `mongodb://${process.env.MONGO_DB_URI}:27017/tickets`,
     );

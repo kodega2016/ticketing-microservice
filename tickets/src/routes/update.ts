@@ -8,6 +8,8 @@ import {
   NotAuthorizedError,
 } from "@kodeapps/common";
 import { createTicketValidator } from "../validators/createTicket";
+import { TicketUpdatedPublisher } from "../events/ticket-updated-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 router.put(
   "/api/tickets/:id",
@@ -34,11 +36,19 @@ router.put(
 
     await ticket.save();
 
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+      version: 1,
+    });
+
     res.status(200).json({
       message: "Ticket updated successfully",
       data: ticket,
     });
-  }
+  },
 );
 
 export { router as updateRouter };
