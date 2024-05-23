@@ -1,6 +1,7 @@
 import express from "express";
 import cookieSession from "cookie-session";
 import { NotFoundError, errorHandler, currentUser } from "@kodeapps/common";
+import { indexOrderRouter } from "./routes";
 
 const app = express();
 // setup express body parser
@@ -17,6 +18,8 @@ app.use(
 
 // set current user middleware
 app.use(currentUser);
+// setup routes
+app.use(indexOrderRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
