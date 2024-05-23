@@ -22,6 +22,8 @@ spec:
             - containerPort: 3000
               name: orders
           env:
+            - name: MONGO_DB_URI
+              value: orders-mongo-clusterip-service
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
