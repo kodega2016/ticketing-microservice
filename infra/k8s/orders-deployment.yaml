@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deployment
+  labels:
+    app: orders
+spec:
+  selector:
+    matchLabels:
+      app: orders
+  strategy:
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: kodega2016/ticketing_orders
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: orders
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-clusterip-service
+spec:
+  selector:
+    app: orders
+  type: ClusterIP
+  ports:
+    - name: orders
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
