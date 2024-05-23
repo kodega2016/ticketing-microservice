@@ -10,11 +10,23 @@ const start = async () => {
     throw new Error("MONGO_DB_URI must be defined");
   }
 
+  if (process.env.NATS_CLUSTER_ID === undefined) {
+    throw new Error("NATS_CLUSTER_ID must be defined");
+  }
+
+  if (process.env.NATS_CLIENT_ID === undefined) {
+    throw new Error("NATS_CLIENT_ID must be defined");
+  }
+
+  if (process.env.NATS_URL === undefined) {
+    throw new Error("NATS_URL must be defined");
+  }
+
   try {
     await natsWrapper.connect(
-      "ticketing",
-      "kodeapps",
-      "http://nats-clusterip-service:4222",
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL,
     );
     console.log("connected to NATS");
 
