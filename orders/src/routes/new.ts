@@ -45,6 +45,8 @@ router.post(
 
     await order.save();
 
+    //TODO:: publish the event
+
     res.status(201).json({
       message: "Order created successfully",
       data: order,

@@ -22,12 +22,13 @@ import { indexOrderRouter } from "./routes";
 import { showOrderRouter } from "./routes/show";
 import { newOrderRouter } from "./routes/new";
 import { updateOrderRouter } from "./routes/update";
-
+import { deleteOrderRouter } from "./routes/delete";
 
 app.use(indexOrderRouter);
 app.use(showOrderRouter);
 app.use(newOrderRouter);
 app.use(updateOrderRouter);
+app.use(deleteOrderRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
@@ -37,5 +38,3 @@ app.get("*", async (req, res) => {
 app.use(errorHandler);
 
 export { app };
-
-
