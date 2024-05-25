@@ -12,7 +12,9 @@ export interface TicketDoc extends mongoose.Document {
   isReserved(): Promise<boolean>;
 }
 
-interface TicketModel extends mongoose.Model<TicketDoc> {}
+interface TicketModel extends mongoose.Model<TicketDoc> {
+  build(attrs: TicketAttrs): TicketDoc;
+}
 
 const ticketSchema = new mongoose.Schema(
   {

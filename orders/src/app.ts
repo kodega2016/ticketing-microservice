@@ -1,12 +1,7 @@
 import express from "express";
 import cookieSession from "cookie-session";
-import { NotFoundError, errorHandler, currentUser } from "@kodeapps/common";
-import { indexOrderRouter } from "./routes";
-import { showOrderRouter } from "./routes/show";
-import { newOrderRouter } from "./routes/new";
-import { updateOrderRouter } from "./routes/update";
 import "express-async-errors";
-
+import { NotFoundError, errorHandler, currentUser } from "@kodeapps/common";
 const app = express();
 // setup express body parser
 app.use(express.json());
@@ -23,6 +18,12 @@ app.use(
 // set current user middleware
 app.use(currentUser);
 // setup routes
+import { indexOrderRouter } from "./routes";
+import { showOrderRouter } from "./routes/show";
+import { newOrderRouter } from "./routes/new";
+import { updateOrderRouter } from "./routes/update";
+
+
 app.use(indexOrderRouter);
 app.use(showOrderRouter);
 app.use(newOrderRouter);
@@ -36,3 +37,5 @@ app.get("*", async (req, res) => {
 app.use(errorHandler);
 
 export { app };
+
+
