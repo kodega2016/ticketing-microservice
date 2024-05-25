@@ -2,7 +2,7 @@ import { requireAuth, validator } from "@kodeapps/common";
 import { Router, Response, Request } from "express";
 import { createTicketValidator } from "../validators/createTicket";
 import { Ticket } from "../models/ticket";
-import { TicketCreatedPublisher } from "../events/ticket-created-publisher";
+import { TicketCreatedPublisher } from "../events/publisher/ticket-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
 const router = Router();
 

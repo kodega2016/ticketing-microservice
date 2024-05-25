@@ -8,7 +8,7 @@ import {
   NotAuthorizedError,
 } from "@kodeapps/common";
 import { createTicketValidator } from "../validators/createTicket";
-import { TicketUpdatedPublisher } from "../events/ticket-updated-publisher";
+import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
 import { natsWrapper } from "../nats-wrapper";
 
 router.put(
