@@ -26,6 +26,7 @@ router.post(
       title: ticket.title,
       price: 0,
       userId: ticket.userId,
+      version: ticket.version,
     });
     res.status(201).json({
       messae: "Ticket created",

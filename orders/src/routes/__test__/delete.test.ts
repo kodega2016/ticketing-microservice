@@ -20,6 +20,7 @@ it("returns a 401 if the user is not authenticated", async () => {
 
 it("returns a 401 if the user does not own the order", async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -42,6 +43,7 @@ it("returns a 401 if the user does not own the order", async () => {
 
 it("marks an order as cancelled", async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -63,6 +65,7 @@ it("marks an order as cancelled", async () => {
 
 it("emits an order cancelled event", async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
