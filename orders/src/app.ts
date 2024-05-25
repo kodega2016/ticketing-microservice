@@ -5,6 +5,7 @@ import { indexOrderRouter } from "./routes";
 import { showOrderRouter } from "./routes/show";
 import { newOrderRouter } from "./routes/new";
 import { updateOrderRouter } from "./routes/update";
+import "express-async-errors";
 
 const app = express();
 // setup express body parser

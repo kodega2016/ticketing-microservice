@@ -3,11 +3,7 @@ import express from "express";
 import "express-async-errors";
 
 import cookieSession from "cookie-session";
-import {
-  NotAuthorizedError,
-  currentUser,
-  errorHandler,
-} from "@kodeapps/common";
+import { NotFoundError, currentUser, errorHandler } from "@kodeapps/common";
 const app = express();
 
 // setup express body parser
@@ -19,7 +15,7 @@ app.use(
     httpOnly: false,
     signed: false,
     secure: process.env.NODE_ENV !== "test",
-  })
+  }),
 );
 
 // set current user middleware
@@ -38,7 +34,7 @@ app.use(updateRouter);
 
 // not found route handler
 app.get("*", async (req, res) => {
-  throw new NotAuthorizedError();
+  throw new NotFoundError();
 });
 
 // setup error handler
