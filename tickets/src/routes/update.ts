@@ -6,6 +6,7 @@ import {
   requireAuth,
   validator,
   NotAuthorizedError,
+  BadRequestError,
 } from "@kodeapps/common";
 import { createTicketValidator } from "../validators/createTicket";
 import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
@@ -21,6 +22,10 @@ router.put(
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.orderId) {
+      throw new BadRequestError("Cannot edit a reserved ticket");
     }
 
     // check if the ticket owner is the current user
@@ -48,7 +53,7 @@ router.put(
       message: "Ticket updated successfully",
       data: ticket,
     });
-  },
+  }
 );
 
 export { router as updateRouter };
