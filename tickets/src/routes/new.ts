@@ -24,7 +24,7 @@ router.post(
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
-      price: 0,
+      price: ticket.price,
       userId: ticket.userId,
       version: ticket.version,
     });
@@ -32,7 +32,7 @@ router.post(
       messae: "Ticket created",
       data: ticket,
     });
-  },
+  }
 );
 
 export { router as createTicketRouter };

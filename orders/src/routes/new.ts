@@ -53,6 +53,7 @@ router.post(
       status: order.status,
       expiresAt: order.expiresAt.toISOString(),
       version: order.version,
+      userId: order.userId,
       ticket: {
         id: ticket.id,
         price: ticket.price,
@@ -63,7 +64,7 @@ router.post(
       message: "Order created successfully",
       data: order,
     });
-  },
+  }
 );
 
 export { router as newOrderRouter };
