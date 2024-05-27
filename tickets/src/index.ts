@@ -37,13 +37,13 @@ const start = async () => {
       process.exit();
     });
 
-    // create a listener for OrderCreatedEvent and OrderCancelledEvent
-    new OrderCreatedListener(natsWrapper.client).listen();
-    new OrderCancelledListener(natsWrapper.client).listen();
-
     // listen for interupt signals
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+
+    // create a listener for OrderCreatedEvent and OrderCancelledEvent
+    new OrderCreatedListener(natsWrapper.client).listen();
+    new OrderCancelledListener(natsWrapper.client).listen();
 
     const response = await mongoose.connect(
       `mongodb://${process.env.MONGO_DB_URI}:27017/tickets`
