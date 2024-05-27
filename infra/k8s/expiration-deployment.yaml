@@ -26,3 +26,5 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: expiration-redis-clusterip-service
