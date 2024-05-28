@@ -1,4 +1,5 @@
 import { app } from "./app";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
 import { OrderCreatedListener } from "./events/listeners/order-created-listener";
 import { natsWrapper } from "./nats-wrapper";
 import mongoose from "mongoose";
@@ -42,6 +43,7 @@ const start = async () => {
 
     // setup listeners
     new OrderCreatedListener(natsWrapper.client).listen();
+    new OrderCancelledListener(natsWrapper.client).listen();
 
     const response = await mongoose.connect(
       `mongodb://${process.env.MONGO_DB_URI}:27017/payments`

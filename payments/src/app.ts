@@ -19,6 +19,10 @@ app.use(
 // setup current user middleware
 app.use(currentUser);
 
+// setup routes
+import { createChargeRouter } from "./routes/new";
+app.use(createChargeRouter);
+
 // not found route handler
 app.get("*", async (req, res) => {
   throw new NotFoundError();
