@@ -9,10 +9,12 @@ import {
 import { Request, Response, Router } from "express";
 import { validateCreateCharge } from "../validators/createChargeValidator";
 import { Order } from "../models/order";
+import { stripe } from "../stripe";
+import { Payment } from "../models/payment";
 const router = Router();
 
 router.post(
-  "/api/payments/new",
+  "/api/payments",
   requireAuth,
   validateCreateCharge,
   validator,
@@ -30,6 +32,19 @@ router.post(
     if (order.status === OrderStatus.Cancelled) {
       throw new BadRequestError("Order is already cancelled");
     }
+
+    const charge = await stripe.charges.create({
+      currency: "usd",
+      amount: order.price * 100,
+      source: req.body.token,
+      description: `Payment for order ${order.id}`,
+    });
+
+    const payment = Payment.build({
+      orderId: order.id,
+      stripeId: charge.id,
+    });
+    await payment.save();
 
     res.status(201).send({
       message: "Payment successful",

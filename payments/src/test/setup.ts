@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 let mongo: any;
 
 jest.mock("../nats-wrapper");
+process.env.STRIPE_KEY = "test";
 
 beforeAll(async () => {
   process.env.JWT_KEY = "test";
