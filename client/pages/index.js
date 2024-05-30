@@ -9,7 +9,8 @@ const Landing = ({ currentUser }) => {
   );
 };
 
-Landing.getInitialProps = async () => {
+Landing.getInitialProps = async (context, client, data) => {
+  // console.log("landing page:", data);
   return {};
 };
 
