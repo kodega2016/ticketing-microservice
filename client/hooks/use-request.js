@@ -12,6 +12,7 @@ export default ({ url, method, body, onSuccess }) => {
         onSuccess(response.data);
       }
     } catch (error) {
+      console.error("error:", error);
       setErrors(
         error && error.response.data.errors.length > 0 && (
           <div className="alert alert-danger">

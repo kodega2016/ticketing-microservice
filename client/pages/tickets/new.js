@@ -1,12 +1,27 @@
 import { useState } from "react";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 const NewTicket = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    console.log(title, price);
+  const { doRequest, errors } = useRequest({
+    url: "/api/tickets",
+    method: "post",
+    body: { title, price },
+    onSuccess: (res) => {
+      Router.push("/");
+    },
+  });
+
+  const onSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      await doRequest();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onBlur = () => {
@@ -20,6 +35,7 @@ const NewTicket = () => {
   return (
     <div>
       <h1>Create a Ticket</h1>
+      {errors && errors}
       <form onSubmit={onSubmit}>
         <label>Title</label>
         <input
