@@ -1,4 +1,4 @@
-name: testing
+name: testing-tickets
 on:
   pull_request:
 jobs:
@@ -7,5 +7,5 @@ jobs:
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
-      - name: run test of auth
-        run: cd auth && npm install && npm run test:ci
+      - name: run test of tickets
+        run: cd tickets && npm install && npm run test:ci
