@@ -19,7 +19,7 @@ const Ticketshow = ({ ticket }) => {
       <button className="btn btn-primary" onClick={doRequest}>
         Purchase
       </button>
-      {errors && errors}
+      <div className="mt-2">{errors && errors}</div>
     </div>
   );
 };
